@@ -8,10 +8,6 @@ const User = require('./models/users.model');
 const passport = require('passport');
 const cookieEncrypyionKey = 'superscret-key';
 const cookieSession = require('cookie-session');
-const {
-  checkAuthenticated,
-  checkNotAuthenticated,
-} = require('./middlewares/auth');
 require('dotenv').config();
 
 app.use(
@@ -50,50 +46,19 @@ const usersRouter = require('./routes/users.router');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-mongoose
-  .connect(`${process.env.MONGO_URL}`)
-  .then(() => {
-    console.log('mongodb connected');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-// app.get('/', checkAuthenticated, (req, res) => {
-//   console.log(req.user);
-//   res.render('index');
-// });
-// app.get('/login', checkNotAuthenticated, (req, res) => {
-//   res.render('login');
-// });
-// app.post('/login', (req, res, next) => {
-//   passport.authenticate('local', (err, user, info) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       return res.json({ msg: info });
-//     }
-//     req.logIn(user, function (err) {
-//       if (err) return next(err);
-//       res.redirect('/');
-//     });
-//   })(req, res, next);
-// });
-
-// app.get('/auth/google', passport.authenticate('google'), () => {});
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate('google', {
-//     successReturnToOrRedirect: '/',
-//     failureRedirect: '/login',
+// mongoose
+//   .connect(`${process.env.MONGO_URL}`)
+//   .then(() => {
+//     console.log('mongodb connected');
 //   })
-// );
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 app.use('/', mainRouter);
 app.use('/auth', usersRouter);
