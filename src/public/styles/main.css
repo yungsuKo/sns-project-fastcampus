@@ -10,3 +10,14 @@
     border-radius: 4px;
     background-color: #f5f5f5;
 }
+.create-post{
+    border : none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #cccccc;
+
+}
+.create-post:hover{
+    background-color: #dddddd;
+}

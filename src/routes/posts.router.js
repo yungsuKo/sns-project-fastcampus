@@ -3,6 +3,43 @@ const { checkAuthenticated } = require('../middlewares/auth');
 const postsRouter = express.Router();
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
+const multer = require('multer');
+const path = require('path');
+
+const storageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../public/assets/images'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+})
+
+const upload = multer({storage: storageEngine}).single('image');
+
+postsRouter.post('/', checkAuthenticated, upload, async (req, res) => {
+    let {desc} = req.body;
+    let image = req.file? req.file.filename: "";
+    console.log('req.file', req.file);
+    console.log('req.file.filename', req.file.filename);
+
+    const post = await Post.create({
+        description: desc,
+        images: image,
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        }
+    })
+    
+    if(!post){
+        console.log(err);
+    }else{
+        res.redirect("back");
+    }
+    
+
+})
 
 postsRouter.get('/', checkAuthenticated, async(req, res) => {
     const posts = await Post.find().populate('comments').sort({createdAt: -1})
