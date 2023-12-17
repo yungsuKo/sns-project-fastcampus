@@ -15,7 +15,46 @@ const userSchema = mongoose.Schema({
     unique: true,
     sparse: true, // null 값 unique 에러 방지
   },
-});
+  kakaoId:{
+    type: String,
+    unique: true,
+    sparse: true, // null 값 unique 에러 방지
+  },
+  username: {
+    type: String,
+    default: 'username'
+  },
+  firstName: {
+    type: String,
+    default: 'firstName'
+  },
+  lastName: {
+    type: String,
+    default: 'lastName'
+  },
+  bio: {
+    type: String,
+    default: 'bio'
+  },
+  hometown: {
+    type: String,
+    default: 'hometown'
+  },
+  workplace: {
+    type: String,
+    default: 'workplace'
+  },
+  education: {
+    type: String,
+    default: 'education'
+  },
+  contact: {
+    type: Number,
+    default: 1012345678,
+  },
+  friends:[{type: String}],
+  friendsRequests: [{type: String}]
+}, {timestamp: true});
 
 const rounds = 5;
 userSchema.pre('save', function (next) {

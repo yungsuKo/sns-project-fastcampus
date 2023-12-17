@@ -51,14 +51,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-// mongoose
-//   .connect(`${process.env.MONGO_URL}`)
-//   .then(() => {
-//     console.log('mongodb connected');
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
+mongoose
+  .connect(`${process.env.MONGO_URL}`)
+  .then(() => {
+    console.log('mongodb connected');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use('/', mainRouter);
 app.use('/auth', usersRouter);

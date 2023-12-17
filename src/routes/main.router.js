@@ -17,20 +17,6 @@ router.get('/signup', checkNotAuthenticated, (req, res) => {
   res.render('auth/signup');
 });
 // --------------------
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.json({ msg: info });
-    }
-    req.logIn(user, function (err) {
-      if (err) return next(err);
-      res.redirect('/');
-    });
-  })(req, res, next);
-});
 
 router.get('/auth/google', passport.authenticate('google'), () => {});
 router.get(

@@ -1,4 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const { checkAuthenticated } = require('../middlewares/auth');
+const postsRouter = express.Router();
 
-module.exports = router;
+postsRouter.get('/', checkAuthenticated, (req, res) => {
+    res.render('posts/index')
+})
+
+module.exports = postsRouter;
