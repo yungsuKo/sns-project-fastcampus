@@ -5,5 +5,12 @@
         <%- include('../partials/create-post') %>
     </div>
     <%- include('../partials/post-modal') %>
+    <% posts.forEach((post) =>{ %>
+        <% if(post.author.id.equals(currentUser._id) || currentUser.friends.find(friend => friend===post.author.id.toString())){ %>
+            <div style='margin: 1rem 0;'>
+                <%- include('../partials/post-item', {post: post}) %>
+            </div>
+        <% } %>
+    <% }) %>
 </div>
 <%- include('../partials/footer') %>

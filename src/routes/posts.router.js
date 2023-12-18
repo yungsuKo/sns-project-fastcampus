@@ -17,11 +17,11 @@ const storageEngine = multer.diskStorage({
 
 const upload = multer({storage: storageEngine}).single('image');
 
-postsRouter.post('/', checkAuthenticated, upload, async (req, res) => {
+postsRouter.post('/', checkAuthenticated, upload, async (req, res, next) => {
     let {desc} = req.body;
     let image = req.file? req.file.filename: "";
-    console.log('req.file', req.file);
-    console.log('req.file.filename', req.file.filename);
+    // console.log('req.file', req.file);
+    // console.log('req.file.filename', req.file.filename);
 
     const post = await Post.create({
         description: desc,
@@ -33,7 +33,7 @@ postsRouter.post('/', checkAuthenticated, upload, async (req, res) => {
     })
     
     if(!post){
-        console.log(err);
+        next(err)
     }else{
         res.redirect("back");
     }

@@ -1,0 +1,33 @@
+<div class='card mb-2'>
+    <div class='card-body text-start'>
+        <div class='d-flex align-items-center'>
+            <a href='/profile/<%= post.author.id%>'>
+                <h5><%= post.author.username %></h5>
+            </a>
+            <small class='text-muted ms-auto'>
+                <!-- 생성일자가 들어가야함 -->
+            </small>
+            <% if (post.author.id.equals(currentUser._id)) { %>
+                <div class="dropdown">
+                    <button class="no-outline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ✎
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-center" href="/posts/<%= post._id %>">Edit</a></li>
+                        <li>
+                            <form class='dropdown-item text-center' action="/posts/<%= post._id %>?_method=delete" method='post'>
+                                <button type='submit' class='no-outline'>Delete</button>
+                            </form>
+                        </li>
+                    </ul>
+                  </div>
+            <% } %>
+        </div>
+        <p class='card-text mt-2'>
+            <%= post.description %>
+        </p>
+        <% if (post.images) { %>
+            <img class="w-100" src='/assets/images/<%= post.images %>'
+        <% } %>
+    </div>
+</div>
