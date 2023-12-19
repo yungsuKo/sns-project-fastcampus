@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 4000;
 const path = require('path');
+const flash = require('connect-flash');
 const { default: mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
 const User = require('./models/users.model');
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
+app.use(flash())
 
 mongoose
   .connect(`${process.env.MONGO_URL}`)
@@ -59,6 +61,16 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+app.get('/send', (req, res) => {
+  req.flash('post success', '포스트가 생성되었습니다.');
+  res.send('message send page');
+});
+
+app.get('/receive', (req, res) => {
+
+  res.send(req.flash('post success')[0]);
+});
 
 app.use('/', mainRouter);
 app.use('/auth', usersRouter);
