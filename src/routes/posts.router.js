@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkPostOwnership } = require('../middlewares/auth');
 const postsRouter = express.Router();
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
@@ -33,8 +33,10 @@ postsRouter.post('/', checkAuthenticated, upload, async (req, res, next) => {
     })
     
     if(!post){
-        next(err)
+        req.flash('error', '포스트 생성 실패');
+        res.redirect("back");
     }else{
+        req.flash('success', '포스트 생성 성공');
         res.redirect("back");
     }
     
@@ -45,7 +47,14 @@ postsRouter.get('/', checkAuthenticated, async(req, res) => {
     const posts = await Post.find().populate('comments').sort({createdAt: -1})
     res.render('posts/index', {
         posts: posts,
-        currentUser: req.user
+        
+    })
+})
+
+postsRouter.get('/:id/edit', checkPostOwnership, async (req, res, next)=> {
+
+    res.render('posts/edit', {
+        post: req.post,
     })
 })
 

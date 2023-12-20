@@ -20,3 +20,11 @@
     <title>SNS</title>
   </head>
   <body>
+    <div class='container'>
+
+      <% if (success && success.length>0) { %>
+        <div class='alert alert-success'>
+          <%= success %>
+        </div>
+      <% } %>
+    </div>

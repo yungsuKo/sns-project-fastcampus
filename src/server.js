@@ -62,13 +62,19 @@ mongoose
     console.log(err);
   });
 
+app.use((req, res, next) => {
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  res.locals.currentUser = req.user,
+  next();
+})
+
 app.get('/send', (req, res) => {
   req.flash('post success', '포스트가 생성되었습니다.');
-  res.send('message send page');
+  res.redirect('/receive');
 });
 
 app.get('/receive', (req, res) => {
-
   res.send(req.flash('post success')[0]);
 });
 
@@ -84,6 +90,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send(err.message || "Error Occured");
 })
+
+
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
