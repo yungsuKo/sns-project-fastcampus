@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const { default: mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
 const User = require('./models/users.model');
+const methodOverride = require('method-override');
 const passport = require('passport');
 const cookieEncrypyionKey = 'superscret-key';
 const cookieSession = require('cookie-session');
@@ -51,7 +52,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
-app.use(flash())
+app.use(methodOverride('_method'));
+app.use(flash());
 
 mongoose
   .connect(`${process.env.MONGO_URL}`)

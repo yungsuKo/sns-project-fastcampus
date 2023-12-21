@@ -52,10 +52,23 @@ postsRouter.get('/', checkAuthenticated, async(req, res) => {
 })
 
 postsRouter.get('/:id/edit', checkPostOwnership, async (req, res, next)=> {
-
+    console.log(req.post.description)
     res.render('posts/edit', {
         post: req.post,
     })
+})
+
+postsRouter.put('/:id/edit', checkPostOwnership, async (req, res, next)=> {
+    console.log(req.body.description);
+    const post = await Post.findByIdAndUpdate(req.params.id, req.body);
+    console.log(post);
+    if(!post){
+        req.flash('error', '수정되지 않았습니다.')
+        res.redirect('/posts')
+    }else{
+        req.flash('success', '수정이 정상적으로 되었습니다.')
+        res.redirect('/posts');
+    }
 })
 
 module.exports = postsRouter;
