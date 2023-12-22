@@ -58,7 +58,7 @@ postsRouter.get('/:id/edit', checkPostOwnership, async (req, res, next)=> {
     })
 })
 
-postsRouter.put('/:id/edit', checkPostOwnership, async (req, res, next)=> {
+postsRouter.put('/:id', checkPostOwnership, async (req, res, next)=> {
     console.log(req.body.description);
     const post = await Post.findByIdAndUpdate(req.params.id, req.body);
     console.log(post);
@@ -67,6 +67,17 @@ postsRouter.put('/:id/edit', checkPostOwnership, async (req, res, next)=> {
         res.redirect('/posts')
     }else{
         req.flash('success', '수정이 정상적으로 되었습니다.')
+        res.redirect('/posts');
+    }
+})
+
+postsRouter.delete('/:id', checkPostOwnership, async (req, res, next) => {
+    const post = await Post.findByIdAndDelete(req.params.id);
+    if(!post){
+        req.flash('error', '삭제되지 않았습니다.')
+        res.redirect('/posts')
+    }else{
+        req.flash('success', '삭제에 성공했습니다.')
         res.redirect('/posts');
     }
 })
