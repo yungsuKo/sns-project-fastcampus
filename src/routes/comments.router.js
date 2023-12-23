@@ -1,7 +1,7 @@
 const express = require('express');
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkCommnetOwnership } = require('../middlewares/auth');
 const Post = require('../models/posts.model');
-const Comment = require('../models/comments.model')
+const Comment = require('../models/comments.model');
 const router = express.Router({
     mergeParams: true
 });
@@ -34,6 +34,19 @@ router.post('/', checkAuthenticated,async (req, res) => {
             req.flash('success', '댓글을 생성에 성공했습니다.');
             res.redirect('back')
         }
+    }
+})
+
+router.delete('/:commentId', checkCommnetOwnership , async (req, res, next) => {
+    console.log(req.params.commentId)
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+    console.log(comment)
+    if(!comment){
+        req.flash('error', '삭제에 실패했습니다.');
+        res.redirect('back');
+    }else{
+        req.flash('success', '삭제에 성공했습니다.');
+        res.redirect('back');
     }
 })
 
