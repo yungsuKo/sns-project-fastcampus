@@ -82,7 +82,7 @@ app.get('/receive', (req, res) => {
 
 app.use('/', mainRouter);
 app.use('/auth', usersRouter);
-app.use('/comments', commentsRouter);
+app.use('/posts/:id/comments', commentsRouter);
 app.use('/posts', postsRouter);
 app.use('/friends', friendsRouter);
 app.use('/post/:id/likes', likesRouter);
