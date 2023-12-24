@@ -8,14 +8,13 @@ const bodyParser = require('body-parser');
 const User = require('./models/users.model');
 const methodOverride = require('method-override');
 const passport = require('passport');
-const cookieEncrypyionKey = 'superscret-key';
 const cookieSession = require('cookie-session');
 require('dotenv').config();
 
 app.use(
   cookieSession({
     name: 'cookie-session-name',
-    keys: [cookieEncrypyionKey],
+    keys: [process.env.COOKIE_KEY],
   })
 );
 app.use(passport.initialize());
