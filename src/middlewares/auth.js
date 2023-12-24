@@ -22,6 +22,7 @@ async function checkCommnetOwnership(req, res, next){
   }else{
     const comment = await Comment.findById(req.params.commentId);
     if(comment.author.id.equals(req.user._id)){
+      req.comment = comment;
       next();
     }else{
       req.flash('error', '코멘트를 삭제할 권한이 없습니다');

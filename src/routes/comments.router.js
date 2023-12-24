@@ -50,4 +50,30 @@ router.delete('/:commentId', checkCommnetOwnership , async (req, res, next) => {
     }
 })
 
+router.get('/:commentId/edit', checkCommnetOwnership, async (req, res, next) => {
+    const post = await Post.findById(req.params.id);
+    if(!post){
+        req.flash('error', '없는 포스트입니다');
+        res.redirect('back');
+    }else{
+        res.render('comments/edit', {
+            post,
+            comment: req.comment
+        });
+    }
+})
+
+router.put('/:commentId/edit', checkCommnetOwnership, async(req, res, next) => {
+    console.log(req.body);
+    const comment = await Comment.findByIdAndUpdate(req.comment._id, req.body);
+    if(!comment){
+        req.flash('error', '에러가 발생하였습니다.');
+        res.redirect('back');
+    }else{
+        req.flash('success', '댓글을 수정하였습니다.');
+        res.redirect('/posts');
+    }
+
+})
+
 module.exports = router;
