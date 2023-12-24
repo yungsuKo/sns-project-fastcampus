@@ -82,6 +82,24 @@ postsRouter.delete('/:id', checkPostOwnership, async (req, res, next) => {
     }
 })
 
+postsRouter.post('/:id/like', checkAuthenticated, async (req, res, next)=> {
+    const post = await Post.findById(req.params.id, req.body);
+    console.log(post);
+    if(post.likes.find(likeId => likeId === req.user._id.toString())){
+        let updatedLikes = post.likes.filter(likeId => likeId===req.user._id);
+        await Post.findByIdAndUpdate(req.params.id, {
+            likes: updatedLikes,
+        });
+        res.redirect('/posts');
+    }else{
+        await Post.findByIdAndUpdate(req.params.id, {
+            likes: post.likes.concat([req.user._id]),
+        });
+        req.flash('success', '수정이 정상적으로 되었습니다.')
+        res.redirect('/posts');
+    }
+})
+
 
 
 module.exports = postsRouter;

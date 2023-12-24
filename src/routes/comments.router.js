@@ -73,7 +73,6 @@ router.put('/:commentId/edit', checkCommnetOwnership, async(req, res, next) => {
         req.flash('success', '댓글을 수정하였습니다.');
         res.redirect('/posts');
     }
-
 })
 
 module.exports = router;

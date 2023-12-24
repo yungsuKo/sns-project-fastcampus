@@ -31,7 +31,29 @@
         <% } %>
 
         <hr class='mt-1'>
-        <div class='collapse show' id='post<%= post._id %>'>
+        <div class='d-flex justify-content-between'>
+            <div class='row'>
+                <form action='/posts/<%= post._id %>/like' method='POST'>
+                    <% if (post.likes.find(like => like === currentUser._id.toString())) { %>
+                        <button type='submit' class='no-outline'>
+                            <span>😀</span>
+                            <span><%= post.likes.length %></span>
+                        </button>
+                    <% } else {%>
+                        <button type='submit' class='no-outline'>
+                            <span>🫥</span>
+                            <span><%= post.likes.length %></span>
+                        </button>
+                    <%}%>
+                </form>
+            </div>
+            <a class='ms-auto pe-2' data-bs-toggle='collapse' href='#post<%= post._id %>'>
+                댓글
+            </a>
+        </div>
+
+        <hr class='mt-1'>
+        <div class='collapse' id='post<%= post._id %>'>
             <% if (post.comments.length>0) { %>
                 <div class='card-body comment-section'>
                     <% post.comments.forEach((comment) => { %>
