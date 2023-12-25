@@ -51,11 +51,11 @@
                                           <%= user.username %>  
                                     </a>
                                     <% if(user.friendsRequests.find(friendId => friendId === currentUser._id.toString())){ %>
-                                        <form action='/friends/<%= user._id %>/remove-friend-request/<%= currentUser._id %>?_method=PUT' method='post' class='ms-auto'>
+                                        <form action='/friends/<%= user._id %>/remove-friend-request?_method=PUT' method='post' class='ms-auto'>
                                             <button type='submit' class='btn sm-btn btn-primary'>친구 요청 취소하기</button>    
                                         </form>
                                     <% } else { %>
-                                        <form action='/friends/<%= user._id %>/add-friend/<%= currentUser._id %>?_method=PUT' method='post' class='ms-auto'>
+                                        <form action='/friends/<%= user._id %>/add-friend?_method=PUT' method='post' class='ms-auto'>
                                             <button type='submit' class='btn sm-btn btn-primary'>친구 요청</button>    
                                         </form>
                                     <% } %>
