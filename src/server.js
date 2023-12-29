@@ -85,7 +85,7 @@ app.use('/posts/:id/comments', commentsRouter);
 app.use('/posts', postsRouter);
 app.use('/friends', friendsRouter);
 app.use('/post/:id/likes', likesRouter);
-app.use('/profile', profileRouter);
+app.use('/profile/:id', profileRouter);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
