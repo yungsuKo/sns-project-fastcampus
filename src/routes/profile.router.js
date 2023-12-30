@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkIsMe } = require('../middlewares/auth');
 const User = require('../models/users.model');
 const Post = require('../models/posts.model');
 const router = express.Router({
@@ -15,5 +15,17 @@ router.get('/', checkAuthenticated, async (req, res) => {
         posts
     })
 })
+
+router.get('/edit', checkIsMe, async(req, res) => {
+    console.log(req.params.id);
+    res.render('profile/edit', {
+        user: req.params.id
+    });
+})
+
+router.post('/edit', checkAuthenticated, async(req, res) => {
+    
+})
+
 
 module.exports = router;
