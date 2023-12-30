@@ -1,5 +1,6 @@
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
+const User = require('../models/users.model');
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -52,4 +53,24 @@ async function checkPostOwnership(req, res, next) {
   }
 }
 
-module.exports = { checkAuthenticated, checkNotAuthenticated, checkPostOwnership, checkCommnetOwnership };
+async function checkIsMe(req, res, next){
+  if(req.isAuthenticated()){
+    const user = await User.findById(req.params.id);
+    if(!user){
+      req.flash('error', '유저가 조회되지 않았습니다.');
+      res.redirect('back');
+    }else{
+      if(user._id.equals(req.user._id)){
+        next();
+      }else{
+        req.flash('error','유저가 일치하지 않습니다.');
+        res.redirect('back');
+      }
+    }
+  } else{
+    req.flash('error', 'Please Login Again');
+    res.redirect('/login');
+  }
+}
+
+module.exports = { checkAuthenticated, checkNotAuthenticated, checkPostOwnership, checkCommnetOwnership, checkIsMe };

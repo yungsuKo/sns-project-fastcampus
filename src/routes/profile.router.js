@@ -19,7 +19,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 router.get('/edit', checkIsMe, async(req, res) => {
     console.log(req.params.id);
     res.render('profile/edit', {
-        user: req.params.id
+        user: req.user
     });
 })
 
