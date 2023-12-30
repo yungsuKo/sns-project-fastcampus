@@ -1,5 +1,25 @@
 <%- include('../partials/header') %>
 
-<%= user %>
+<div class='container col-lg-8'>
+    <div class='text-center'>
+        <h3><%= user.firstName %> <%= user.lastName %></h3>
+        <p class='text-dark'><%= user.bio %></p>
+    </div>
+    <hr>
+</div>
+<div class='row'>
+    <div class='col-md-5 mb-2'>
+        <div class='card mb-2' style='border-radius: 10px;'>
+            <div class='card-body'>
+                <h5>Intro</h5>
+            </div>
+            <ul class='list-group list-group-flush'>
+                <li class='list-group-item'>
+                    <i class='fa fa-map-marker fa-lg'></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <%- include('../partials/footer') %>

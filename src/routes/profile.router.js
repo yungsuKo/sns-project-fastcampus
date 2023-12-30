@@ -10,8 +10,9 @@ router.get('/', checkAuthenticated, async (req, res) => {
     console.log(req.params.id);
     const posts = await Post.find({"author.id": req.params.id}).populate('comments');
     console.log(posts)
-    res.render('profile/index', {
-        user: posts
+    res.render('profile', {
+        user: req.user,
+        posts
     })
 })
 
