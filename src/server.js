@@ -38,7 +38,6 @@ require('./config/passport');
 
 const commentsRouter = require('./routes/comments.router');
 const friendsRouter = require('./routes/friends.router');
-const likesRouter = require('./routes/likes.router');
 const mainRouter = require('./routes/main.router');
 const postsRouter = require('./routes/posts.router');
 const profileRouter = require('./routes/profile.router');
@@ -84,7 +83,6 @@ app.use('/auth', usersRouter);
 app.use('/posts/:id/comments', commentsRouter);
 app.use('/posts', postsRouter);
 app.use('/friends', friendsRouter);
-app.use('/post/:id/likes', likesRouter);
 app.use('/profile/:id', profileRouter);
 
 app.use((err, req, res, next) => {
